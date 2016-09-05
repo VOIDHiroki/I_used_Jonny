@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "player.h"
 #include "game.h"
+#include "gamecamera.h"
 
 
 Player::Player()
 {
-
+	
 }
 
 Player::~Player()
@@ -38,47 +39,82 @@ void Player::Start()
 	position = D3DXVECTOR3(0.0f, 2.0f, 0.0f);
 	rotation = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f);
 
+	state = State_STAND;
 }
 
 void Player::Update()
-{
+{	
+	D3DXVECTOR3 V1 = game->GetGameCamera()->GetCamera().GetLookatPt() - game->GetGameCamera()->GetCamera().GetEyePt();	//少し長いけどカメラの位置と注視点で向きを求めてる
+	D3DXVECTOR3 V2;
+	D3DXVECTOR3 UP(0.0f, 1.0f, 0.0f);		//上方向のベクトル
+	V1.y = 0.0f;
+	D3DXVec3Normalize(&V1, &V1);			//正規化
+	D3DXVec3Cross(&V2, &V1, &UP);			//上方向のベクトルを乗算することで横方向の直線ベクトルV2が求められるらしい
+	D3DXVec3Normalize(&V2, &V2);			//正規化
 	
-	///////////////////////////////////////実装予定？//////////////////////////////////////////////////////////
-	//
-	//		**カメラの向いている方向に進ませる**
-	//
-	// D3DXVECTOR3 V1 = game->GetCamera()->GetLookatPt() - game->GetCamera()->GetEyePt();
-	// D3DXVECTOR3 V2;
-	// D3DXVECTOR3 Up(0.0f,0.1f,0.0f);		//上方向のベクトル
-	// 
-	// D3DXVec3Normalize(&V1, &V1);			//正規化
-	// D3DXVec3Cross(&V2, &V1, &UP);		//上方向のベクトルを乗算することで直線のベクトルV2が求められる？
-	// D3DXVec3Normalize(&V2, &V2);			//正規化
-	//
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	D3DXVECTOR3 MoveDir(0.0f, 0.0f, 0.0f);
+	float movespeed = 0.04f;
+
+
+	//キャラクターの移動
 	if (GetAsyncKeyState('W')){
-		position.z -= 0.02f;
+		MoveDir += V1;
 	}
 	if (GetAsyncKeyState('S')){
-		position.z += 0.02f;
+		MoveDir -= V1;
 	}
 	if (GetAsyncKeyState('A')){
-		position.x += 0.02f;
+		MoveDir += V2;
 	}
 	if (GetAsyncKeyState('D')){
-		position.x -= 0.02f;
+		MoveDir -= V2;
 	}
 
-	animation.Update(1.0f / 60.0f);
-	model.UpdateWorldMatrix(position, rotation, D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	D3DXVec3Normalize(&MoveDir, &MoveDir);
+	position += MoveDir * movespeed;
+	if (MoveDir != D3DXVECTOR3(0.0f,0.0f,0.0f)){
+		state = State_RUN;
+	}
+	else
+	{
+		state = State_STAND;
+	}
 
+	//アニメーションアップデート
+	
+	AnimationControl();
+	model.UpdateWorldMatrix(position, rotation, D3DXVECTOR3(1.0f, 1.0f, 1.0f));	//ワールド行列更新
+
+}
+
+void Player::PlayAnimation(AnimationNo animNo)
+{
+	if (currentAnimNo != animNo){
+		//現在のアニメーションと違う
+		animation.PlayAnimation(animNo);
+		currentAnimNo = animNo;
+	}
+}
+
+
+void Player::AnimationControl()
+{
+	animation.Update(1.0f / 60.0f);
+	if (state == State_RUN){
+		PlayAnimation(Anim_RUN);
+	}
+	else
+	{
+		PlayAnimation(Anim_STAND);
+	}
 }
 
 void Player::Render()
 {
+	GameCamera* g_camera = game->GetGameCamera();
+	model.Draw(&g_camera->GetCamera().GetViewMatrix(), &g_camera->GetCamera().GetProjectionMatrix());
 	
-	Camera* camera = game->GetCamera();
-	model.Draw(&camera->GetViewMatrix(), &camera->GetProjectionMatrix());
-
+	//Camera* camera = game->GetCamera();
+	//model.Draw(&camera->GetViewMatrix(), &camera->GetProjectionMatrix());
 }

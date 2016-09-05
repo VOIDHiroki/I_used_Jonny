@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="gamecamera.cpp" />
     <ClCompile Include="ground.cpp" />
     <ClCompile Include="lib\Animation.cpp" />
     <ClCompile Include="lib\Camera.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="gamecamera.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="lib\Animation.h" />
     <ClInclude Include="lib\Camera.h" />

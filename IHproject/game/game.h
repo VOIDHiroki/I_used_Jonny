@@ -2,6 +2,9 @@
 
 #include "player.h"
 #include "ground.h"
+#include "gamecamera.h"
+
+
 
 class Game{
 public:
@@ -28,8 +31,14 @@ public:
 		return &camera;
 	}
 
+	GameCamera* GetGameCamera()
+	{
+		return &g_camera;
+	}
+
 private:
 	Camera camera;
+	GameCamera g_camera;
 	Player player;
 	Ground ground;
 

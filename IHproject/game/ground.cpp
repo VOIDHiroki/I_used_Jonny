@@ -28,6 +28,10 @@ void Ground::Init()
 
 void Ground::Render()
 {
-	Camera* camera = game->GetCamera();
-	model.Draw(&camera->GetViewMatrix(), &camera->GetProjectionMatrix());
+
+	GameCamera* g_camera = game->GetGameCamera();
+	model.Draw(&g_camera->GetCamera().GetViewMatrix(), &g_camera->GetCamera().GetProjectionMatrix());
+
+	//Camera* camera = game->GetCamera();
+	//model.Draw(&camera->GetViewMatrix(), &camera->GetProjectionMatrix());
 }
