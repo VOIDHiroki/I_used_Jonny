@@ -17,3 +17,6 @@
 #include "lib/SkinModelData.h"
 #include "lib/Animation.h"
 #include "lib/Light.h"
+
+#define Vec3Zero D3DXVECTOR3(0.0f,0.0f,0.0f)
+#define Vec3One D3DXVECTOR3(1.0f,1.0f,1.0f)

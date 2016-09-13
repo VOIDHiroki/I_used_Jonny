@@ -38,5 +38,7 @@ private:
 	D3DXQUATERNION rotation;
 	Light light;
 
+	D3DXVECTOR3 MoveDir;
+
 
 };

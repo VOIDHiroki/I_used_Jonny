@@ -20,6 +20,7 @@ void Game::Start()
 	player.Start();
 	g_camera.Start();
 	g_camera.SetPlayer(&player);
+	map.Start();
 	ground.Init();
 
 }
@@ -36,11 +37,13 @@ void Game::Update()
 
 	g_camera.Update();
 	player.Update();
+	map.Update();
 	
 
 }
 void Game::Render()
 {
 	player.Render();
-	ground.Render();
+	//ground.Render();
+	map.Render();
 }

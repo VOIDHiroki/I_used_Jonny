@@ -6,7 +6,7 @@
 
 Player::Player()
 {
-	
+	MoveDir = D3DXVECTOR3(0.0f,0.0f,0.0f);
 }
 
 Player::~Player()
@@ -32,11 +32,12 @@ void Player::Start()
 
 	//モデルをロード
 	modelData.LoadModelData("Assets/model/Unity.X", &animation);
+	animation.SetAnimationEndTime(2, 0.8f);
 
 	model.Init(&modelData);
 	model.SetLight(&light);
 	animation.PlayAnimation(0);
-	position = D3DXVECTOR3(0.0f, 2.0f, 0.0f);
+	position = D3DXVECTOR3(0.0f, 2.05f, 0.0f);
 	rotation = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f);
 
 	state = State_STAND;
@@ -53,27 +54,33 @@ void Player::Update()
 	D3DXVec3Normalize(&V2, &V2);			//正規化
 	
 
-	D3DXVECTOR3 MoveDir(0.0f, 0.0f, 0.0f);
-	float movespeed = 0.04f;
+	float movespeed = 0.0f;
 
 
 	//キャラクターの移動
 	if (GetAsyncKeyState('W')){
 		MoveDir += V1;
+		movespeed = 0.06f;
 	}
 	if (GetAsyncKeyState('S')){
 		MoveDir -= V1;
+		movespeed = 0.06f;
+
 	}
 	if (GetAsyncKeyState('A')){
 		MoveDir += V2;
+		movespeed = 0.06f;
+
 	}
 	if (GetAsyncKeyState('D')){
 		MoveDir -= V2;
+		movespeed = 0.06f;
+
 	}
 
 	D3DXVec3Normalize(&MoveDir, &MoveDir);
 	position += MoveDir * movespeed;
-	if (MoveDir != D3DXVECTOR3(0.0f,0.0f,0.0f)){
+	if (movespeed != 0.0f){
 		state = State_RUN;
 	}
 	else
@@ -84,7 +91,9 @@ void Player::Update()
 	//アニメーションアップデート
 	
 	AnimationControl();
-	model.UpdateWorldMatrix(position, rotation, D3DXVECTOR3(1.0f, 1.0f, 1.0f));	//ワールド行列更新
+	D3DXQUATERNION mRot;
+	D3DXQuaternionRotationAxis(&mRot, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), atan2f(MoveDir.x, MoveDir.z));//D3DXToRadian(UnityDir));
+	model.UpdateWorldMatrix(position, mRot, D3DXVECTOR3(1.0f, 1.0f, 1.0f));	//ワールド行列更新
 
 }
 

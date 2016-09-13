@@ -3,7 +3,7 @@
 #include "player.h"
 #include "ground.h"
 #include "gamecamera.h"
-
+#include "Map.h"
 
 
 class Game{
@@ -41,6 +41,7 @@ private:
 	GameCamera g_camera;
 	Player player;
 	Ground ground;
+	Map map;
 
 };
 

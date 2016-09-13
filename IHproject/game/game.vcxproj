@@ -159,6 +159,8 @@
     <ClCompile Include="lib\SkinModel.cpp" />
     <ClCompile Include="lib\SkinModelData.cpp" />
     <ClCompile Include="lib\System.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -178,6 +180,9 @@
     <ClInclude Include="lib\SkinModel.h" />
     <ClInclude Include="lib\SkinModelData.h" />
     <ClInclude Include="lib\System.h" />
+    <ClInclude Include="locationInfo.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MapChip.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
