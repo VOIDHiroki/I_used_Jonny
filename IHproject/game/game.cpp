@@ -16,7 +16,7 @@ void Game::Start()
 	//camera.Init();
 	//camera.Update();
 	
-
+	physics.Start();
 	player.Start();
 	g_camera.Start();
 	g_camera.SetPlayer(&player);
@@ -35,6 +35,8 @@ void Game::Update()
 	//camera.SetLookatPt(playerPos);
 	//camera.Update();
 
+	physics.Update();
+	Pad.Update();
 	g_camera.Update();
 	player.Update();
 	map.Update();
@@ -44,6 +46,7 @@ void Game::Update()
 void Game::Render()
 {
 	player.Render();
-	//ground.Render();
+	ground.Render();
 	map.Render();
+	sky.Render();
 }

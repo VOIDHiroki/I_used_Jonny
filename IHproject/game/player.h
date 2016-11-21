@@ -1,11 +1,13 @@
 #pragma once
 
-class Player{
+#include "CharacterController.h"
 
+class Player{
 	enum AnimationNo{
 		Anim_STAND,
 		Anim_WALK,
 		Anim_RUN,
+		Anim_JUMP
 	};
 
 public:
@@ -13,7 +15,8 @@ public:
 	{
 		State_STAND,
 		State_WALK,
-		State_RUN
+		State_RUN,
+		State_JUMP
 	};
 	Player();
 	~Player();
@@ -39,6 +42,5 @@ private:
 	Light light;
 
 	D3DXVECTOR3 MoveDir;
-
-
+	CCharacterController characterController;
 };

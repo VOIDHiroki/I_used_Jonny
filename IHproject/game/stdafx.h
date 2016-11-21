@@ -18,5 +18,11 @@
 #include "lib/Animation.h"
 #include "lib/Light.h"
 
+#include "btBulletDynamicsCommon.h"
+#include "BulletCollision\CollisionDispatch\btGhostObject.h"
+
+#define PI 3.14159265358979323846f
 #define Vec3Zero D3DXVECTOR3(0.0f,0.0f,0.0f)
 #define Vec3One D3DXVECTOR3(1.0f,1.0f,1.0f)
+#define QuaternionIdentity D3DXQUATERNION(0.0f,0.0f,0.0f,1.0f)
+	

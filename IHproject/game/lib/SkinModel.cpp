@@ -2,6 +2,7 @@
 #include "lib/SkinModel.h"
 #include "lib/SkinModelData.h"
 #include "lib/Light.h"
+#include "game.h"
 
 extern UINT                 g_NumBoneMatricesMax;
 extern D3DXMATRIXA16*       g_pBoneMatrices;
@@ -109,6 +110,7 @@ namespace {
 
 			pEffect->SetMatrix("g_worldMatrix", &mWorld);
 			pEffect->SetMatrix("g_rotationMatrix", rotationMatrix);
+			pEffect->SetVector("eyePos", &(D3DXVECTOR4)game->GetGameCamera()->GetCamera().GetEyePt());
 			pEffect->Begin(0, D3DXFX_DONOTSAVESTATE);
 			pEffect->BeginPass(0);
 
@@ -210,7 +212,7 @@ void SkinModel::UpdateWorldMatrix(const D3DXVECTOR3& trans, const D3DXQUATERNION
 	}
 }
 
-void SkinModel::Draw(D3DXMATRIX* viewMatrix, D3DXMATRIX* projMatrix)
+void SkinModel::Draw(D3DXMATRIX* viewMatrix, D3DXMATRIX* projMatrix)//, bool isDrawToShadowMap, bool isRenderShadow)
 {
 	if (skinModelData) {
 		DrawFrame(
@@ -224,4 +226,9 @@ void SkinModel::Draw(D3DXMATRIX* viewMatrix, D3DXMATRIX* projMatrix)
 			light
 			);
 	}
+}
+
+LPD3DXMESH SkinModel::GetOrgMeshFirst()
+{
+	return skinModelData->GetOrgMeshFirst();
 }

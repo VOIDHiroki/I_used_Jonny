@@ -1,4 +1,6 @@
 #pragma once
+#include "MeshCollider.h"
+#include "rigidBody.h"
 
 
 class Ground{
@@ -19,5 +21,8 @@ private:
 
 	Light light;
 	Camera camera;
+	MeshCollider meshCollider;
 
+	D3DXMATRIX* rootBoneMatrix;
+	RigidBody rigidBody;
 };

@@ -390,7 +390,7 @@ namespace {
 			{
 				if (pMeshContainer->pMaterials[iMaterial].pTextureFilename != NULL)
 				{
-					char* baseDir = "Assets/model/";
+					char* baseDir = "Assets/image/";	//テクスチャファイルパスを決めますた。
 					char filePath[64];
 					strcpy(filePath, baseDir);
 					strcat(filePath, pMeshContainer->pMaterials[iMaterial].pTextureFilename);
@@ -416,7 +416,8 @@ namespace {
 			pMeshContainer->pMaterials[0].MatD3D.Diffuse.b = 0.5f;
 			pMeshContainer->pMaterials[0].MatD3D.Specular = pMeshContainer->pMaterials[0].MatD3D.Diffuse;
 		}
-
+		pMeshContainer->pOrigMesh = pMesh;
+		pMesh->AddRef();
 		// if there is skinning information, save off the required data and then setup for HW skinning
 		if (pSkinInfo != NULL)
 		{
@@ -424,9 +425,7 @@ namespace {
 			pMeshContainer->pSkinInfo = pSkinInfo;
 			pSkinInfo->AddRef();
 
-			pMeshContainer->pOrigMesh = pMesh;
-			pMesh->AddRef();
-
+		
 			// Will need an array of offset matrices to move the vertices from the figure space to the bone's space
 			cBones = pSkinInfo->GetNumBones();
 			pMeshContainer->pBoneOffsetMatrices = new D3DXMATRIX[cBones];
@@ -629,4 +628,28 @@ void SkinModelData::LoadModelData(const char* filePath, Animation* anim)
 void SkinModelData::UpdateBoneMatrix(const D3DXMATRIX& matWorld)
 {
 	UpdateFrameMatrices(frameRoot, &matWorld);
+}
+
+LPD3DXMESH SkinModelData::GetOrgMesh(LPD3DXFRAME frame)const
+{
+	D3DXMESHCONTAINER_DERIVED* pMeshContainer = (D3DXMESHCONTAINER_DERIVED*)(frame->pMeshContainer);
+	if (pMeshContainer != nullptr){
+		return pMeshContainer->pOrigMesh;
+	}
+	if (frame->pFrameSibling != nullptr){
+		//兄弟？
+		LPD3DXMESH mesh = GetOrgMesh(frame->pFrameSibling);
+
+		if (mesh){
+			return mesh;
+		}
+	}
+	if (frame->pFrameFirstChild != nullptr){
+		//子供
+		LPD3DXMESH mesh = GetOrgMesh(frame->pFrameFirstChild);
+		if (mesh){
+			return mesh;
+		}
+	}
+	return nullptr;
 }

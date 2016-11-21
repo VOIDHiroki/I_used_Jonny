@@ -40,6 +40,7 @@ public:
 	*@param[in]	filePath	ファイルパス。
 	*@param[out]	anim		アニメーション付きモデルデータの場合、アニメーションクラスも構築されます。
 	*/
+
 	void LoadModelData(const char* filePath, Animation* anim);
 	/*!
 	* @brief	リリース。
@@ -53,10 +54,24 @@ public:
 	{
 		return pAnimController;
 	}
+
+	D3DXMATRIX* GetRootBoneWorldMatrix()
+	{
+		//frameRoot != nullptr, "m_frameRoot is null";
+		D3DXFRAME_DERIVED* frameDer = (D3DXFRAME_DERIVED*)frameRoot;
+		return (D3DXMATRIX*)&frameDer->CombinedTransformationMatrix;
+	}
 	/*!
 	* @brief	ボーン行列を更新。
 	*/
 	void UpdateBoneMatrix(const D3DXMATRIX& matWorld);
+
+	LPD3DXMESH GetOrgMeshFirst()
+	{
+		return GetOrgMesh(frameRoot);
+	}
+
+	LPD3DXMESH GetOrgMesh(LPD3DXFRAME frame)const;
 private:
 	LPD3DXFRAME					frameRoot;		//フレームルート。
 	ID3DXAnimationController*   pAnimController;	//アニメーションコントローラ。

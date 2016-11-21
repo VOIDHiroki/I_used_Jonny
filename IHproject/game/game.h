@@ -4,7 +4,9 @@
 #include "ground.h"
 #include "gamecamera.h"
 #include "Map.h"
-
+#include "Pad.h"
+#include "SkyBox.h"
+#include "Physics.h"
 
 class Game{
 public:
@@ -35,14 +37,24 @@ public:
 	{
 		return &g_camera;
 	}
+	CPad* GetPad()
+	{
+		return &Pad;
+	}
 
+	PhysicsWorld* GetPhysics()
+	{
+		return &physics;
+	}
 private:
 	Camera camera;
 	GameCamera g_camera;
 	Player player;
 	Ground ground;
 	Map map;
-
+	CPad Pad;
+	SkyBox sky;
+	PhysicsWorld physics;
 };
 
 extern Game* game;

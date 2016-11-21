@@ -1,0 +1,37 @@
+﻿2016/10/25 20:21:16 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\Github\I_used_Jonny\IHproject\game\game.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /D _CRT_SECURE_NO_WARNINGS /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CharacterController.cpp
+         CharacterController.cpp
+     1>c:\github\i_used_jonny\ihproject\game\charactercontroller.cpp(124): warning C4244: '+=' : 'double' から 'float' への変換です。データが失われる可能性があります。
+     1>c:\github\i_used_jonny\ihproject\game\charactercontroller.cpp(129): warning C4305: '*=' : 'double' から 'float' へ切り詰めます。
+     1>c:\github\i_used_jonny\ihproject\game\charactercontroller.cpp(130): warning C4305: '*=' : 'double' から 'float' へ切り詰めます。
+     1>c:\github\i_used_jonny\ihproject\game\charactercontroller.cpp(131): warning C4305: '*=' : 'double' から 'float' へ切り詰めます。
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Github\I_used_Jonny\IHproject\Debug\game.exe" /INCREMENTAL /NOLOGO d3d9.lib d3dx9.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib XInput.lib BulletCollision_Debug.lib BulletDynamics_Debug.lib BulletSoftBody_Debug.lib LinearMath_Debug.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\I_used_Jonny\IHproject\Debug\game.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\I_used_Jonny\IHproject\Debug\game.lib" /MACHINE:X86 Debug\CapsuleCollider.obj
+         Debug\CharacterController.obj
+         Debug\game.obj
+         Debug\gamecamera.obj
+         Debug\ground.obj
+         Debug\Animation.obj
+         Debug\Camera.obj
+         Debug\EffectManager.obj
+         Debug\Main.obj
+         Debug\SkinModel.obj
+         Debug\SkinModelData.obj
+         Debug\System.obj
+         Debug\Map.obj
+         Debug\MapChip.obj
+         Debug\MeshCollider.obj
+         Debug\Pad.obj
+         Debug\Physics.obj
+         Debug\player.obj
+         Debug\rigidBody.obj
+         Debug\SkyBox.obj
+         Debug\stdafx.obj
+         game.vcxproj -> C:\Github\I_used_Jonny\IHproject\Debug\game.exe
+     1>プロジェクト "C:\Github\I_used_Jonny\IHproject\game\game.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:05.14

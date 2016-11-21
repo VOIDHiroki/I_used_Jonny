@@ -1,0 +1,28 @@
+﻿2016/09/26 14:53:52 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\Github\I_used_Jonny\IHproject\game\game.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt Pad.cpp
+         Pad.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Github\I_used_Jonny\IHproject\x64\Debug\game.exe" /INCREMENTAL /NOLOGO d3d9.lib d3dx9.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Github\I_used_Jonny\IHproject\x64\Debug\game.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Github\I_used_Jonny\IHproject\x64\Debug\game.lib" /MACHINE:X64 x64\Debug\game.obj
+         x64\Debug\gamecamera.obj
+         x64\Debug\ground.obj
+         x64\Debug\Animation.obj
+         x64\Debug\Camera.obj
+         x64\Debug\EffectManager.obj
+         x64\Debug\Main.obj
+         x64\Debug\SkinModel.obj
+         x64\Debug\SkinModelData.obj
+         x64\Debug\System.obj
+         x64\Debug\Map.obj
+         x64\Debug\MapChip.obj
+         x64\Debug\Pad.obj
+         x64\Debug\player.obj
+         x64\Debug\stdafx.obj
+     1>Pad.obj : error LNK2019: 未解決の外部シンボル XInputGetState が関数 "public: void __cdecl CPad::Update(void)" (?Update@CPad@@QEAAXXZ) で参照されました。
+     1>C:\Github\I_used_Jonny\IHproject\x64\Debug\game.exe : fatal error LNK1120: 1 件の未解決の外部参照
+     1>プロジェクト "C:\Github\I_used_Jonny\IHproject\game\game.vcxproj" (Build ターゲット) のビルドが終了しました -- 失敗。
+
+ビルドに失敗しました。
+
+経過時間 00:00:03.16

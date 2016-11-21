@@ -14,6 +14,8 @@ float4x4	g_worldMatrix;			//!<ワールド行列。
 float4x4	g_rotationMatrix;		//!<回転行列。
 float4x4	g_viewMatrixRotInv;		//!<カメラの回転行列の逆行列。
 
+float3	eyePos;
+
 bool g_isHasNormalMap;			//法線マップ保持している？
 
 texture g_diffuseTexture;		//ディフューズテクスチャ。
@@ -60,10 +62,11 @@ struct VS_INPUT
  */
 struct VS_OUTPUT
 {
-	float4  Pos     		: POSITION;
+    float4  Pos		     		: POSITION;
     float3  Normal			: NORMAL;
     float2  Tex0   			: TEXCOORD0;
     float3	Tangent			: TEXCOORD1;	//接ベクトル
+    float4	worldPos		: TEXCOORD2;
 };
 /*!
  *@brief	ワールド座標とワールド法線をスキン行列から計算する。
@@ -140,8 +143,16 @@ float4 PSMain( VS_OUTPUT In ) : COLOR
 {
 	float4 color = tex2D(g_diffuseTextureSampler, In.Tex0);
 	float3 normal = In.Normal;
-		
+	
 	float4 lig = DiffuseLight(normal);
+
+	float3 eye = normalize(eyePos - In.worldPos);
+	float3 R = -eye + 2.0f * dot(normal, eye) * normal;		
+	float3 spec = max(0.0f, dot(R, -g_light.diffuseLightDir[0]));
+	spec = pow(spec , 1.5f);
+
+	lig.xyz += spec.xyz;
+	
 	color *= lig;
 	
 	return color;

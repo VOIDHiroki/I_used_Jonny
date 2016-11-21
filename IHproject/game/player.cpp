@@ -6,7 +6,7 @@
 
 Player::Player()
 {
-	MoveDir = D3DXVECTOR3(0.0f,0.0f,0.0f);
+	MoveDir = Vec3Zero;
 }
 
 Player::~Player()
@@ -30,15 +30,22 @@ void Player::Start()
 	light.SetDiffuseLightColor(3, D3DXVECTOR4(0.2f, 0.2f, 0.2f, 1.0f));
 	light.SetAmbientLight(D3DXVECTOR4(0.3f, 0.3f, 0.3f, 1.0f));
 
+	GameCamera* g_camera = game->GetGameCamera();
+
 	//モデルをロード
 	modelData.LoadModelData("Assets/model/Unity.X", &animation);
 	animation.SetAnimationEndTime(2, 0.8f);
 
 	model.Init(&modelData);
 	model.SetLight(&light);
+	model.SetCamera(&g_camera->GetCamera());
 	animation.PlayAnimation(0);
-	position = D3DXVECTOR3(0.0f, 2.05f, 0.0f);
+	position = D3DXVECTOR3(0.0f, 2.5f, 0.0f);
 	rotation = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f);
+	D3DXVECTOR3 InitPos = position;
+	InitPos.y += 0.2f;
+	characterController.Init(0.5f, 0.5f, InitPos);
+	characterController.SetGravity(-20.0f);
 
 	state = State_STAND;
 }
@@ -52,41 +59,70 @@ void Player::Update()
 	D3DXVec3Normalize(&V1, &V1);			//正規化
 	D3DXVec3Cross(&V2, &V1, &UP);			//上方向のベクトルを乗算することで横方向の直線ベクトルV2が求められるらしい
 	D3DXVec3Normalize(&V2, &V2);			//正規化
-	
+	CPad* Pad = game->GetPad();
 
 	float movespeed = 0.0f;
 
 
 	//キャラクターの移動
-	if (GetAsyncKeyState('W')){
-		MoveDir += V1;
-		movespeed = 0.06f;
-	}
-	if (GetAsyncKeyState('S')){
-		MoveDir -= V1;
-		movespeed = 0.06f;
+	//if (GetAsyncKeyState('W')){
+	//	MoveDir += V1;
+	//	movespeed = 0.06f;
+	//}
+	//if (GetAsyncKeyState('S')){
+	//	MoveDir -= V1;
+	//	movespeed = 0.06f;
 
-	}
-	if (GetAsyncKeyState('A')){
-		MoveDir += V2;
-		movespeed = 0.06f;
+	//}
+	//if (GetAsyncKeyState('A')){
+	//	MoveDir += V2;
+	//	movespeed = 0.06f;
 
-	}
-	if (GetAsyncKeyState('D')){
-		MoveDir -= V2;
-		movespeed = 0.06f;
+	//}
+	//if (GetAsyncKeyState('D')){
+	//	MoveDir -= V2;
+	//	movespeed = 0.06f;
 
+	//}
+
+	if (fabsf(Pad->GetLStickXF()) > 0.0f || fabsf(Pad->GetLStickYF()) > 0.0f){
+		MoveDir.x += V2.x * Pad->GetLStickXF() - V1.x * Pad->GetLStickYF();
+		MoveDir.z += V2.z * Pad->GetLStickXF() - V1.z * Pad->GetLStickYF();
+		
+		movespeed = 4.8f * max(fabsf(Pad->GetLStickXF()) + fabsf(Pad->GetLStickYF()), 0.0f);
 	}
 
-	D3DXVec3Normalize(&MoveDir, &MoveDir);
-	position += MoveDir * movespeed;
-	if (movespeed != 0.0f){
-		state = State_RUN;
+
+	D3DXVec3Normalize(&MoveDir, &MoveDir);		//正規化
+	D3DXVECTOR3 moveSpeed = movespeed * MoveDir;
+	moveSpeed.y = characterController.GetMoveSpeed().y;
+	if (characterController.GetOnGround()){
+		if (movespeed != 0.0f){
+			if (movespeed >= 0.05f){
+				state = State_RUN;
+			}
+			else
+			{
+				state = State_WALK;
+			}
+		}
+
+		else
+		{
+			state = State_STAND;
+		}
+		if (Pad->IsTrigger(enButtonA) ){
+			moveSpeed.y = 8.0f;
+			characterController.Jump();
+		}
 	}
-	else
-	{
-		state = State_STAND;
+	else{
+		state = State_JUMP;
 	}
+	characterController.SetMoveSpeed(moveSpeed);
+	characterController.Execute();
+	position = characterController.GetPosition();
+
 
 	//アニメーションアップデート
 	
@@ -112,6 +148,13 @@ void Player::AnimationControl()
 	animation.Update(1.0f / 60.0f);
 	if (state == State_RUN){
 		PlayAnimation(Anim_RUN);
+	}
+	else if (state == State_WALK)
+	{
+		PlayAnimation(Anim_WALK);
+	}
+	else if (state == State_JUMP){
+		PlayAnimation(Anim_JUMP);
 	}
 	else
 	{

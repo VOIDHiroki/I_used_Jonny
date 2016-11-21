@@ -1,5 +1,8 @@
 #pragma once
 
+#include "MeshCollider.h"
+#include "rigidBody.h"
+
 struct SMapChipLocInfo{
 	const char* modelName;
 	D3DXVECTOR3 pos;
@@ -21,6 +24,11 @@ private:
 	Animation						animation;
 	Light							light;
 	D3DXVECTOR3						position;
+	D3DXQUATERNION					rotation;
+	D3DXMATRIX*						worldMatrixBuffer;
+	MeshCollider*					meshCollider;
+	RigidBody*						rigidBody;
+	D3DXMATRIX*						rootBoneMatrix;
 	//D3DXMATRIX					m_world;
 
 };

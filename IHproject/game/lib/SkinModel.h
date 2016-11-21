@@ -23,7 +23,7 @@ public:
 	/*!
 	*@brief	描画。
 	*/
-	void Draw(D3DXMATRIX* viewMatrix, D3DXMATRIX* projMatrix);
+	void Draw(D3DXMATRIX* viewMatrix, D3DXMATRIX* projMatrix/*, bool isDrawToShadowMap, bool isRenderShadow*/);
 
 	/*!
 	*@brief	ワールド行列を更新。
@@ -41,6 +41,19 @@ public:
 	{
 		this->light = light;
 	}
+	void SetCamera(Camera* camera)
+	{
+		this->camera = camera;
+	}
+
+	LPD3DXMESH GetOrgMeshFirst();
+
+
+	D3DXMATRIX* GetWorldMatrix()
+	{
+		return &worldMatrix;
+	}
+
 private:
 	D3DXMATRIX			worldMatrix;	//!<ワールド行列。
 	D3DXMATRIX			rotationMatrix;	//!<回転行列。
@@ -48,4 +61,5 @@ private:
 	ID3DXEffect*		pEffect;		//!<エフェクト。
 	Animation			animation;		//!<アニメーション。
 	Light*				light;			//!<ライト。
+	Camera*				camera;
 };
